@@ -1,0 +1,4 @@
+com\bestcommerce\controllers\DefaultController.class
+com\bestcommerce\controllers\HomeController.class
+com\bestcommerce\security\RestSecurity.class
+com\bestcommerce\BestCommerceApp.class
