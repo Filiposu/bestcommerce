@@ -1,4 +1,7 @@
-com\bestcommerce\controllers\DefaultController.class
+com\bestcommerce\repository\ProductRepository.class
 com\bestcommerce\controllers\HomeController.class
 com\bestcommerce\security\RestSecurity.class
+com\bestcommerce\entities\Product.class
+com\bestcommerce\entities\Category.class
+com\bestcommerce\repository\CategoryRepository.class
 com\bestcommerce\BestCommerceApp.class

@@ -1,4 +1,7 @@
 C:\Users\004329\IdeaProjects\BestCommerce\src\main\java\com\bestcommerce\security\RestSecurity.java
-C:\Users\004329\IdeaProjects\BestCommerce\src\main\java\com\bestcommerce\controllers\DefaultController.java
+C:\Users\004329\IdeaProjects\BestCommerce\src\main\java\com\bestcommerce\entities\Product.java
+C:\Users\004329\IdeaProjects\BestCommerce\src\main\java\com\bestcommerce\entities\Category.java
+C:\Users\004329\IdeaProjects\BestCommerce\src\main\java\com\bestcommerce\repository\CategoryRepository.java
+C:\Users\004329\IdeaProjects\BestCommerce\src\main\java\com\bestcommerce\repository\ProductRepository.java
 C:\Users\004329\IdeaProjects\BestCommerce\src\main\java\com\bestcommerce\BestCommerceApp.java
 C:\Users\004329\IdeaProjects\BestCommerce\src\main\java\com\bestcommerce\controllers\HomeController.java

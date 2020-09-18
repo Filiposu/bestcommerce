@@ -25,7 +25,7 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .and()
                 .httpBasic()
-                .and().rememberMe().disable();
+                .and().rememberMe().disable().headers().frameOptions().sameOrigin();
     }
 
     @Bean
