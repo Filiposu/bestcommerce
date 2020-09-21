@@ -8,7 +8,7 @@ public class Product {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column
@@ -22,6 +22,9 @@ public class Product {
     )
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @Column
+    private Integer price;
 
     public Category getCategory() {
         return category;

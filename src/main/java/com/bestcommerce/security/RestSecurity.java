@@ -21,11 +21,7 @@ public class RestSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
                 http
-                .csrf().disable()
-                .formLogin()
-                .and()
-                .httpBasic()
-                .and().rememberMe().disable().headers().frameOptions().sameOrigin();
+                .csrf().disable().headers().frameOptions().sameOrigin();
     }
 
     @Bean

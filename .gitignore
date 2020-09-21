@@ -9,7 +9,6 @@
 *.ear
 
 #Gradle temporary files
-target/
 
 #Eclipse files
 **/.project
@@ -22,6 +21,8 @@ blog/bin/
 **/*.iml
 **/.idea
 **/.gradle
+
+target
 
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
