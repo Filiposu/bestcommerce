@@ -1,6 +1,8 @@
 package com.bestcommerce.entities;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "Products")
@@ -26,6 +28,18 @@ public class Product {
     @Column
     private Integer price;
 
+    @Column
+    private Boolean delivery;
+
+    @Column
+    private int discount;
+
+    @Column
+    private LocalDate discount_start;
+
+    @Column
+    private LocalDate discount_end;
+
     public Category getCategory() {
         return category;
     }
@@ -34,13 +48,6 @@ public class Product {
         this.category = category;
     }
 
-    public Float getUnitPrice() {
-        return unitPrice;
-    }
-
-    public void setUnitPrice(Float unitPrice) {
-        this.unitPrice = unitPrice;
-    }
 
     public Boolean getDelivery() {
         return delivery;
@@ -50,13 +57,13 @@ public class Product {
         this.delivery = delivery;
     }
 
-    @Column
-    private Float unitPrice;
+    public Integer getPrice() {
+        return price;
+    }
 
-    @Column
-    private Boolean delivery;
-
-
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
     public Long getId() {
         return id;
     }

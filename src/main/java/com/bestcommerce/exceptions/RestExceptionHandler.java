@@ -19,7 +19,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
 
     @ExceptionHandler(value
-            = { ProductNotFoundException.class })
+            = { ProductNotFoundException.class,Exception.class })
     protected ResponseEntity<Object> handleConflict(
             RuntimeException ex, WebRequest request) {
         String bodyOfResponse = ex.getMessage();
