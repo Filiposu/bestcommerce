@@ -1,6 +1,7 @@
 package com.bestcommerce.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "merchants")
@@ -67,5 +68,24 @@ public class Merchant {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Merchant merchant = (Merchant) o;
+        return Objects.equals(id, merchant.id) &&
+                Objects.equals(merchant_name, merchant.merchant_name) &&
+                Objects.equals(owner_name, merchant.owner_name) &&
+                Objects.equals(address, merchant.address) &&
+                Objects.equals(phone_number, merchant.phone_number) &&
+                Objects.equals(user, merchant.user);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, merchant_name, owner_name, address, phone_number, user);
     }
 }
