@@ -1,6 +1,7 @@
 package com.bestcommerce.services.impl;
 
 import com.bestcommerce.entities.Product;
+import com.bestcommerce.exceptions.ProductNotFoundException;
 import com.bestcommerce.repository.ProductRepository;
 import com.bestcommerce.services.ProductService;
 import javassist.NotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +38,21 @@ public class ProductServiceImpl implements ProductService {
 
         Long productId = productRepository.save(product).getId();
         return productId;
+    }
+
+    @Override
+    public Product setDiscount(Long id, Integer discount, LocalDate start,LocalDate end) {
+        Optional<Product> productToDiscount = productRepository.findById(id);
+        if(productToDiscount.isPresent()){
+            Product product1 = productToDiscount.get();
+            product1.setDiscount_start(start);
+            product1.setDiscount_end(end);
+            product1.setDiscount(discount);
+            return productRepository.save(product1);
+        }
+        else {
+            throw new ProductNotFoundException("Cant set discount because product was not found");
+        }
     }
 
 

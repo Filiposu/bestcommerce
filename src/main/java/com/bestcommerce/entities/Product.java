@@ -1,6 +1,7 @@
 package com.bestcommerce.entities;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -26,13 +27,13 @@ public class Product {
     private Category category;
 
     @Column
-    private Integer price;
+    private Double price;
 
     @Column
     private Boolean delivery;
 
     @Column
-    private int discount;
+    private Integer discount;
 
     @Column
     private LocalDate discount_start;
@@ -40,30 +41,9 @@ public class Product {
     @Column
     private LocalDate discount_end;
 
-    public Category getCategory() {
-        return category;
-    }
+    @Transient
+    private Double discountedPrice;
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
-
-    public Boolean getDelivery() {
-        return delivery;
-    }
-
-    public void setDelivery(Boolean delivery) {
-        this.delivery = delivery;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
     public Long getId() {
         return id;
     }
@@ -87,5 +67,82 @@ public class Product {
     public void setInventory(Integer inventory) {
         this.inventory = inventory;
     }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Boolean getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Boolean delivery) {
+        this.delivery = delivery;
+    }
+
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
+    }
+
+    public LocalDate getDiscount_start() {
+        return discount_start;
+    }
+
+    public void setDiscount_start(LocalDate discount_start) {
+        this.discount_start = discount_start;
+    }
+
+    public LocalDate getDiscount_end() {
+        return discount_end;
+    }
+
+    public void setDiscount_end(LocalDate discount_end) {
+        this.discount_end = discount_end;
+    }
+
+    public Double getDiscountedPrice() {
+
+        LocalDate startDate = this.getDiscount_start();
+        LocalDate endDate = this.getDiscount_end();
+        Integer discount = this.getDiscount();
+        Double discountedPrice = this.getPrice();
+        Double originalPrice = this.getPrice();
+
+
+
+        try {
+            if(LocalDate.now().isAfter(startDate)&LocalDate.now().isBefore(endDate)){
+                Double percentage = discount/originalPrice;
+                discountedPrice = originalPrice - (originalPrice * percentage);
+
+                System.out.println(discountedPrice);
+                return discountedPrice;
+            }
+        }
+        catch (Exception ex){
+            discountedPrice = this.getPrice();
+            return discountedPrice;
+        }
+
+        return discountedPrice;
+    }
+
+
 
 }

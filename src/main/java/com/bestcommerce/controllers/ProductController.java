@@ -1,7 +1,9 @@
 package com.bestcommerce.controllers;
 
+import com.bestcommerce.entities.Category;
 import com.bestcommerce.entities.Product;
 import com.bestcommerce.exceptions.ProductNotFoundException;
+import com.bestcommerce.requests.DiscountRequest;
 import com.bestcommerce.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -11,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -53,16 +56,33 @@ public class ProductController {
 
     @RequestMapping(method = RequestMethod.POST,value = "/create")
     public Long product (@RequestBody Product product){
+
+        Product newProduct = new Product();
+        Category category = new Category();
+        category.setId((long) 2);
+        newProduct.setCategory(category);
+        newProduct.setDiscount(10);
+        newProduct.setPrice((double) 600);
+        newProduct.setDiscount_end(LocalDate.now().plusDays(10));
+        newProduct.setDiscount_start(LocalDate.now());
+
         Long productId;
         System.out.println("Access achieved");
         try {
-           productId = productService.save(product);
+           productId = productService.save(newProduct);
         }
        catch (Exception ex){
            throw ex;
        }
 
         return productId;
+    }
+
+    @RequestMapping(value = "/{id}/discount",method = RequestMethod.POST)
+    public Product setDiscount(@PathVariable long id, @RequestBody DiscountRequest discount) {
+
+        Product product = productService.setDiscount(id,discount.getDiscount(),discount.getStart(),discount.getEnd());
+        return product;
     }
 
 
