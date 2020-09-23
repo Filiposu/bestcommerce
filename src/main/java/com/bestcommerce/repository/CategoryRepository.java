@@ -16,6 +16,10 @@ public interface CategoryRepository extends CrudRepository<Category,Long> {
     @Override
     Optional<Category> findById(Long aLong);
 
+    Optional<Category> findByName(String name);
+
+
+
 
 
 }

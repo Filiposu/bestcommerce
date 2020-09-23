@@ -4,19 +4,25 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "merchants")
+@Table(name = "merchants",uniqueConstraints = {
+        @UniqueConstraint(columnNames = "user_id")
+})
 public class Merchant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column
     private String merchant_name;
 
+    @Column(name = "owner_name")
     private String owner_name;
 
+    @Column
     private String address;
 
+    @Column
     private String phone_number;
 
     @OneToOne

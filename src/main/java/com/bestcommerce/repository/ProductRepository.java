@@ -20,6 +20,8 @@ public interface ProductRepository extends PagingAndSortingRepository<Product,Lo
     @Override
     Page<Product> findAll(Pageable pageable);
 
+    Optional<Product > findByName(String name);
+
     @Override
     Optional<Product> findById(Long id);
 

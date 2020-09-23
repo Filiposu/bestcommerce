@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailServiceImpl {
 
-    @Qualifier("getJavaMailSender")
     @Autowired
     private JavaMailSender emailSender;
 

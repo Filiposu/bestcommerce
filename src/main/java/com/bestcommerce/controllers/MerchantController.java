@@ -6,6 +6,7 @@ import com.bestcommerce.entities.Role;
 import com.bestcommerce.entities.Role_Enum;
 import com.bestcommerce.entities.User;
 import com.bestcommerce.repository.MerchantRepository;
+import com.bestcommerce.services.MerchantService;
 import com.bestcommerce.services.impl.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +24,17 @@ import java.util.Set;
 public class MerchantController {
 
     @Autowired
+    private MerchantService merchantService;
+
+    @Autowired
     private MerchantRepository merchantRepository;
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public List<Merchant> getMerchansts(){
-        return merchantRepository.findAll();
+    public List<Merchant> getMerchantts(){
+        return merchantService.getMerchants();
     }
+
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value = "/create",method = RequestMethod.POST)
@@ -48,6 +53,8 @@ public class MerchantController {
         Merchant merchant1 = merchantRepository.save(merchant);
         return merchant1;
     }
+
+
 
 
 

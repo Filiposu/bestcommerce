@@ -14,7 +14,12 @@ public class Category {
     @Column
     private String name;
 
+    public Category() {
+    }
 
+    public Category(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;

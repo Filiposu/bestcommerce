@@ -10,10 +10,12 @@ import java.util.Set;
 @Table(name = "Products")
 public class Product {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Column(name = "product_name")
+    private String name;
 
     @Column
     private String description;
@@ -41,6 +43,10 @@ public class Product {
 
     @Column
     private LocalDate discount_end;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="merchant_id")
+    private Merchant merchant;
 
     @Transient
     private Double discountedPrice;
@@ -158,6 +164,19 @@ public class Product {
         return discountedPrice;
     }
 
+    public Merchant getMerchant() {
+        return merchant;
+    }
 
+    public void setMerchant(Merchant merchant) {
+        this.merchant = merchant;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

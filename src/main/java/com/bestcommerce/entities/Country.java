@@ -17,9 +17,15 @@ public class Country {
     private String  name;
 
 
+    public Country() {
 
-//    @ManyToMany(mappedBy = "rollout_countries",fetch = FetchType.LAZY)
-//    private Set<Product> rollouts;
+    }
+
+
+    public Country(String name) {
+        this.setName(name);
+    }
+
 
     public Integer getId() {
         return id;
@@ -37,13 +43,7 @@ public class Country {
         this.name = name;
     }
 
-//    public Set<Product> getRollouts() {
-//        return rollouts;
-//    }
-//
-//    public void setRollouts(Set<Product> rollouts) {
-//        this.rollouts = rollouts;
-//    }
+
 
     @Override
     public boolean equals(Object o) {
