@@ -4,6 +4,7 @@ import com.bestcommerce.entities.Product;
 import com.bestcommerce.exceptions.ProductNotFoundException;
 import com.bestcommerce.repository.ProductRepository;
 import com.bestcommerce.services.ProductService;
+import com.bestcommerce.utils.EmailServiceImpl;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private EmailServiceImpl emailService;
 
 
     public List<Product> getAllProducts(Pageable pageRequest) {
@@ -43,11 +47,29 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product setDiscount(Long id, Integer discount, LocalDate start,LocalDate end) {
         Optional<Product> productToDiscount = productRepository.findById(id);
+
         if(productToDiscount.isPresent()){
             Product product1 = productToDiscount.get();
+            String emailAddress = "togrul125@gmail.com";
             product1.setDiscount_start(start);
             product1.setDiscount_end(end);
-            product1.setDiscount(discount);
+            product1.setDiscount((double)discount);
+
+            Double discountedPrice = product1.getPrice()-(product1.getPrice()*(discount/100));
+
+            StringBuilder builder = new StringBuilder();
+            builder.append( "Congratulations discount for the product " + product1.getName() + " has been set ");
+            builder.append(System.getProperty("line.separator"));
+            builder.append( "Discounted price for your product is " + discountedPrice);
+            builder.append(System.getProperty("line.separator"));
+            builder.append( "Difference between original and discounted price will be " + String.valueOf(product1.getPrice()-discountedPrice));
+            builder.append(System.getProperty("line.separator"));
+            builder.append( "Discount will go online on " + product1.getDiscount_start());
+            builder.append(System.getProperty("line.separator"));
+            builder.append(System.getProperty("line.separator"));
+
+
+            emailService.sendSimpleMessage(emailAddress,"New Discount",builder.toString());
             return productRepository.save(product1);
         }
         else {

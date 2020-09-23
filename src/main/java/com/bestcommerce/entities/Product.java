@@ -36,7 +36,7 @@ public class Product {
     private Boolean delivery;
 
     @Column
-    private Integer discount;
+    private Double discount;
 
     @Column
     private LocalDate discount_start;
@@ -113,11 +113,11 @@ public class Product {
         this.delivery = delivery;
     }
 
-    public Integer getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Integer discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 
@@ -141,7 +141,7 @@ public class Product {
 
         LocalDate startDate = this.getDiscount_start();
         LocalDate endDate = this.getDiscount_end();
-        Integer discount = this.getDiscount();
+        Double discount = this.getDiscount();
         Double discountedPrice = this.getPrice();
         Double originalPrice = this.getPrice();
 
@@ -149,7 +149,7 @@ public class Product {
 
         try {
             if(LocalDate.now().isAfter(startDate)&LocalDate.now().isBefore(endDate)){
-                Double percentage = discount/originalPrice;
+                Double percentage = discount/100;
                 discountedPrice = originalPrice - (originalPrice * percentage);
 
                 System.out.println(discountedPrice);

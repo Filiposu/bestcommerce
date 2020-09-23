@@ -2,10 +2,12 @@ package com.bestcommerce.controllers;
 
 import com.bestcommerce.entities.Category;
 import com.bestcommerce.entities.Country;
+import com.bestcommerce.entities.Merchant;
 import com.bestcommerce.entities.Product;
 import com.bestcommerce.exceptions.ProductNotFoundException;
 import com.bestcommerce.repository.CountryRepository;
 import com.bestcommerce.requests.DiscountRequest;
+import com.bestcommerce.services.MerchantService;
 import com.bestcommerce.services.ProductService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -33,6 +36,8 @@ public class ProductController {
     @Autowired
     private CountryRepository countryRepository;
 
+    @Autowired
+    private MerchantService merchantService;
 
     @RequestMapping(value = "",method = RequestMethod.GET)
     public List<Product> listProducts(@RequestParam int page,@RequestParam int size,@RequestParam int priceDir,@RequestParam int inventoryDir){
@@ -69,7 +74,7 @@ public class ProductController {
         Category category = new Category();
         category.setId((long) 2);
         newProduct.setCategory(category);
-        newProduct.setDiscount(10);
+        newProduct.setDiscount((double) 10);
         newProduct.setPrice((double) 600);
         newProduct.setDiscount_end(LocalDate.now().plusDays(10));
         newProduct.setDiscount_start(LocalDate.now());
@@ -82,14 +87,16 @@ public class ProductController {
        catch (Exception ex){
            throw ex;
        }
-
         return productId;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping(value = "/{id}/discount",method = RequestMethod.POST)
     public Product setDiscount(@PathVariable long id, @RequestBody DiscountRequest discount) {
 
         Product product = productService.setDiscount(id,discount.getDiscount(),discount.getStart(),discount.getEnd());
+
+
         return product;
     }
 

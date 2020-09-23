@@ -138,7 +138,7 @@ public class BestCommerceApp implements CommandLineRunner {
 
         Product product1 = new Product();
         product1.setInventory(6);
-        product1.setDiscount(10);
+        product1.setDiscount(10.0);
         product1.setCategory(categoryRepository.findByName("Mobile").get());
         product1.setName("Galaxy 10");
         product1.setDiscount_end(LocalDate.of(2020, 9, 20));
@@ -148,7 +148,7 @@ public class BestCommerceApp implements CommandLineRunner {
 
         Product product2 = new Product();
         product2.setInventory(10);
-        product2.setDiscount(5);
+        product2.setDiscount(5.0);
         product2.setCategory(categoryRepository.findByName("Book").get());
         product2.setName("Harry Potter");
         product2.setDiscount_end(LocalDate.of(2020, 9, 11));
@@ -158,7 +158,7 @@ public class BestCommerceApp implements CommandLineRunner {
 
         Product product3 = new Product();
         product3.setInventory(4);
-        product3.setDiscount(20);
+        product3.setDiscount(20.0);
         product3.setCategory(categoryRepository.findByName("Food").get());
         product3.setName("Chocolate");
         product3.setDiscount_end(LocalDate.of(2020, 9, 23));
