@@ -1,10 +1,13 @@
 package com.bestcommerce.controllers;
 
 import com.bestcommerce.entities.Category;
+import com.bestcommerce.entities.Country;
 import com.bestcommerce.entities.Product;
 import com.bestcommerce.exceptions.ProductNotFoundException;
+import com.bestcommerce.repository.CountryRepository;
 import com.bestcommerce.requests.DiscountRequest;
 import com.bestcommerce.services.ProductService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -24,6 +29,9 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CountryRepository countryRepository;
 
 
     @RequestMapping(value = "",method = RequestMethod.GET)
@@ -83,6 +91,18 @@ public class ProductController {
 
         Product product = productService.setDiscount(id,discount.getDiscount(),discount.getStart(),discount.getEnd());
         return product;
+    }
+
+    @RequestMapping(value = "/{product_id}/rollout/{country_id}",method = RequestMethod.POST)
+    public Product postForRollout(@PathVariable int product_id,@PathVariable int country_id) throws NotFoundException {
+        System.out.println("Request accepted");
+        Product productFound = productService.getProductById((long) product_id);
+        Country country = countryRepository.findById(country_id).orElseThrow(() -> new ProductNotFoundException("Country could not be found"));
+        Set<Country> countrySet = productFound.getRollout_countries();
+        countrySet.add(country);
+        productFound.setRollout_countries(countrySet);
+        productService.save(productFound);
+        return productFound;
     }
 
 

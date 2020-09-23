@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "Products")
@@ -43,6 +44,20 @@ public class Product {
 
     @Transient
     private Double discountedPrice;
+
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "product_rollout", joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "country_id", referencedColumnName = "id"))
+    private Set<Country> rollout_countries;
+
+    public Set<Country> getRollout_countries() {
+        return rollout_countries;
+    }
+
+    public void setRollout_countries(Set<Country> rollout_countries) {
+        this.rollout_countries = rollout_countries;
+    }
 
     public Long getId() {
         return id;

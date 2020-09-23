@@ -1,5 +1,6 @@
 package com.bestcommerce.repository;
 
+import com.bestcommerce.entities.Country;
 import com.bestcommerce.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface ProductRepository extends PagingAndSortingRepository<Product,Long> {
@@ -20,6 +22,9 @@ public interface ProductRepository extends PagingAndSortingRepository<Product,Lo
 
     @Override
     Optional<Product> findById(Long id);
+
+
+
 
 
 
