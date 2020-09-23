@@ -22,14 +22,16 @@ public class JwtUtility {
     @Value("${jwt.expiration}")
     private int jwtExpirationMs;
 
-    public String generateJwtToken(Authentication authentication) {
+    public String generateJwtToken(Authentication authentication,boolean rememberMe) {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+
+        int expirationTime =  rememberMe? 604800000: jwtExpirationMs;
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(new Date((new Date()).getTime() + expirationTime))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }

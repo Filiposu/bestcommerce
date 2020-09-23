@@ -42,7 +42,6 @@ public class MerchantController {
             roles.add(new Role(Role_Enum.valueOf(role.getAuthority())));
         }
         user.setId(userDetails.getId());
-        user.setEmail(userDetails.getEmail());
         user.setUsername(userDetails.getUsername());
         user.setRoles(roles);
         merchant.setUser(user);
