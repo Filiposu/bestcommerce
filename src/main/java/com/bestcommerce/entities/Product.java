@@ -21,7 +21,7 @@ public class Product {
     private String description;
 
     @Column
-    private Integer inventory;
+    private int inventory;
 
     @ManyToOne(
             fetch = FetchType.EAGER
@@ -37,6 +37,7 @@ public class Product {
 
     @Column
     private Double discount;
+
 
     @Column
     private LocalDate discount_start;
@@ -81,11 +82,11 @@ public class Product {
         this.description = description;
     }
 
-    public Integer getInventory() {
+    public int getInventory() {
         return inventory;
     }
 
-    public void setInventory(Integer inventory) {
+    public void setInventory(int inventory) {
         this.inventory = inventory;
     }
 
@@ -135,6 +136,10 @@ public class Product {
 
     public void setDiscount_end(LocalDate discount_end) {
         this.discount_end = discount_end;
+    }
+
+    public void setDiscountedPrice(Double discountedPrice) {
+        this.discountedPrice = discountedPrice;
     }
 
     public Double getDiscountedPrice() {

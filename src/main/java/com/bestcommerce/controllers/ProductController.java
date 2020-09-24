@@ -41,7 +41,7 @@ public class ProductController {
     private MerchantService merchantService;
 
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public List<Product> listProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "0") int size, @RequestParam(defaultValue = "1") int priceDir, @RequestParam(defaultValue = "1") int inventoryDir){
+    public List<Product> listProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "1") int size, @RequestParam(defaultValue = "1") int priceDir, @RequestParam(defaultValue = "1") int inventoryDir){
 
         List<Sort.Order> orders = new ArrayList<Sort.Order>();
 
@@ -59,7 +59,6 @@ public class ProductController {
 
     @RequestMapping(method = RequestMethod.GET,path = "/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
-
        try {
            Product product = productService.getProductById(id);
            return new ResponseEntity<Product>(product,HttpStatus.OK);
@@ -70,8 +69,6 @@ public class ProductController {
     }
 
 
-
-
     @RequestMapping(method = RequestMethod.POST,value = "/create")
     public Product product (Authentication authentication,@RequestBody Product product) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -80,13 +77,10 @@ public class ProductController {
         return productService.save(product);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @RequestMapping(value = "/{id}/discount",method = RequestMethod.POST)
     public Product setDiscount(@PathVariable long id, @RequestBody DiscountRequest discount) {
-
         Product product = productService.setDiscount(id,discount.getDiscount(),discount.getStart(),discount.getEnd());
-
-
         return product;
     }
 

@@ -13,6 +13,8 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -25,26 +27,32 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     protected ResponseEntity<Object> handleProductException(
             ProductNotFoundException ex, WebRequest request) {
         String bodyOfResponse = ex.getMessage();
-        return handleExceptionInternal(ex, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+        ApiError apiError =
+                new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), bodyOfResponse);
+        return  new  ResponseEntity<Object>(apiError,
+                new HttpHeaders(), apiError.getStatus());
     }
 
     @ExceptionHandler(value
             = { IllegalArgumentException.class, IllegalStateException.class })
     protected ResponseEntity<Object> handleConflict(
             RuntimeException ex, WebRequest request) {
-        String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.CONFLICT, request);
+        String bodyOfResponse = ex.getMessage();
+        ApiError apiError =
+                new ApiError(HttpStatus.CONFLICT, ex.getLocalizedMessage(), bodyOfResponse);
+        return  new  ResponseEntity<Object>(apiError,
+                new HttpHeaders(), apiError.getStatus());
     }
 
     @ExceptionHandler(value
             = {AccessDeniedException.class})
     protected ResponseEntity<Object> handleForbidden(
             AccessDeniedException ex, WebRequest request) {
-        String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+        String bodyOfResponse = ex.getMessage();
+        ApiError apiError =
+                new ApiError(HttpStatus.NOT_FOUND, ex.getLocalizedMessage(), bodyOfResponse);
+        return  new  ResponseEntity<Object>(apiError,
+                new HttpHeaders(), apiError.getStatus());
     }
 
 
@@ -57,13 +65,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(value
-            = {Exception.class })
-    protected ResponseEntity<Object> handleGeneric(
-            Exception ex, WebRequest request) {
-        String bodyOfResponse = ex.getMessage();
-        return handleExceptionInternal(ex, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+    @ExceptionHandler({ Exception.class })
+    public ResponseEntity<Object> handleAll(Exception ex, WebRequest request) {
+
+        ApiError apiError = new ApiError(
+                HttpStatus.INTERNAL_SERVER_ERROR, ex.getLocalizedMessage(), "error occurred");
+        return new ResponseEntity<Object>(
+                apiError, new HttpHeaders(), apiError.getStatus());
     }
 
 

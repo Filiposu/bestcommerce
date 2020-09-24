@@ -143,30 +143,34 @@ public class BestCommerceApp implements CommandLineRunner {
         product1.setDiscount(10.0);
         product1.setCategory(categoryRepository.findByName("Mobile").get());
         product1.setName("Galaxy 10");
-        product1.setDiscount_end(LocalDate.of(2020, 9, 20));
-        product1.setDiscount_start(LocalDate.of(2020, 9, 29));
+        product1.setDiscount_end(LocalDate.of(2020, 9, 29));
+        product1.setDiscount_start(LocalDate.of(2020, 9, 20));
         product1.setPrice((double) 700);
         product1.setMerchant(merchantRepository.findMerchantByOwner_name("Toghrul").get());
+        System.out.println( product1.toString());
 
         Product product2 = new Product();
         product2.setInventory(10);
         product2.setDiscount(5.0);
         product2.setCategory(categoryRepository.findByName("Book").get());
         product2.setName("Harry Potter");
-        product2.setDiscount_end(LocalDate.of(2020, 9, 11));
-        product2.setDiscount_start(LocalDate.of(2020, 9, 18));
+        product2.setDiscount_end(LocalDate.of(2020, 9, 18));
+        product2.setDiscount_start(LocalDate.of(2020, 9, 11));
         product2.setPrice((double) 100);
         product2.setMerchant(merchantRepository.findMerchantByOwner_name("Tural").get());
+        System.out.println( product2.toString());
 
         Product product3 = new Product();
         product3.setInventory(4);
         product3.setDiscount(20.0);
         product3.setCategory(categoryRepository.findByName("Food").get());
         product3.setName("Chocolate");
-        product3.setDiscount_end(LocalDate.of(2020, 9, 23));
-        product3.setDiscount_start(LocalDate.of(2020, 9, 30));
+        product3.setDiscount_end(LocalDate.of(2020, 9, 30));
+        product3.setDiscount_start(LocalDate.of(2020, 9, 23));
         product3.setPrice((double) 50);
         product3.setMerchant(merchantRepository.findMerchantByOwner_name("Orxan").get());
+
+        System.out.println( product3.toString());
 
         products.add(product1);
         products.add(product2);
