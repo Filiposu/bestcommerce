@@ -39,9 +39,11 @@ public class BestCommerceApp implements CommandLineRunner {
     private CountryRepository countryRepository;
 
     public static void main(String[] args) {
-        SpringApplication.run(BestCommerceApp.class, args);
+        SpringApplication.  run(BestCommerceApp.class, args);
     }
 
+
+    //Bootstrapping default database values
     @Override
     @Transactional
     public void run(String... args) throws Exception {

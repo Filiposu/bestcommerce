@@ -91,6 +91,18 @@ public class Merchant {
     }
 
     @Override
+    public String toString() {
+        return "Merchant{" +
+                "id=" + id +
+                ", merchant_name='" + merchant_name + '\'' +
+                ", owner_name='" + owner_name + '\'' +
+                ", address='" + address + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                ", user=" + user +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(id, merchant_name, owner_name, address, phone_number, user);
     }

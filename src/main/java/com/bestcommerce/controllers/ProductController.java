@@ -9,6 +9,7 @@ import com.bestcommerce.repository.CountryRepository;
 import com.bestcommerce.requests.DiscountRequest;
 import com.bestcommerce.services.MerchantService;
 import com.bestcommerce.services.ProductService;
+import com.bestcommerce.services.impl.UserDetailsImpl;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,14 +17,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,7 +41,7 @@ public class ProductController {
     private MerchantService merchantService;
 
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public List<Product> listProducts(@RequestParam int page,@RequestParam int size,@RequestParam int priceDir,@RequestParam int inventoryDir){
+    public List<Product> listProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "0") int size, @RequestParam(defaultValue = "1") int priceDir, @RequestParam(defaultValue = "1") int inventoryDir){
 
         List<Sort.Order> orders = new ArrayList<Sort.Order>();
 
@@ -55,6 +56,7 @@ public class ProductController {
         return products;
     }
 
+
     @RequestMapping(method = RequestMethod.GET,path = "/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
 
@@ -67,27 +69,15 @@ public class ProductController {
        }
     }
 
+
+
+
     @RequestMapping(method = RequestMethod.POST,value = "/create")
-    public Long product (@RequestBody Product product){
-
-        Product newProduct = new Product();
-        Category category = new Category();
-        category.setId((long) 2);
-        newProduct.setCategory(category);
-        newProduct.setDiscount((double) 10);
-        newProduct.setPrice((double) 600);
-        newProduct.setDiscount_end(LocalDate.now().plusDays(10));
-        newProduct.setDiscount_start(LocalDate.now());
-
-        Long productId;
-        System.out.println("Access achieved");
-        try {
-           productId = productService.save(newProduct);
-        }
-       catch (Exception ex){
-           throw ex;
-       }
-        return productId;
+    public Product product (Authentication authentication,@RequestBody Product product) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Merchant merchant = merchantService.getMerchandByUserId(userDetails.getId());
+        product.setMerchant(merchant);
+        return productService.save(product);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
