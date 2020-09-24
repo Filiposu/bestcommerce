@@ -43,7 +43,7 @@ public class ProductController {
     @RequestMapping(value = "",method = RequestMethod.GET)
     public List<Product> listProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "1") int priceDir, @RequestParam(defaultValue = "1") int inventoryDir){
 
-        List<Sort.Order> orders = new ArrayList<Sort.Order>();
+        List<Sort.Order> orders = new ArrayList<>();
 
         orders.add(new Sort.Order(Sort.Direction.valueOf(String.valueOf(priceDir == 1? Sort.Direction.DESC:Sort.Direction.ASC)),"price"));
         orders.add(new Sort.Order(Sort.Direction.valueOf(String.valueOf(inventoryDir == 1? Sort.Direction.DESC:Sort.Direction.ASC)),"inventory"));
@@ -60,7 +60,7 @@ public class ProductController {
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
        try {
            Product product = productService.getProductById(id);
-           return new ResponseEntity<Product>(product,HttpStatus.OK);
+           return new ResponseEntity<>(product, HttpStatus.OK);
        }
        catch (Exception ex){
            throw new ProductNotFoundException("Product with id = " + id + " does not exist");

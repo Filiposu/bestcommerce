@@ -26,7 +26,7 @@ public class JwtUtility {
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
 
-        int expirationTime =  rememberMe? 604800000: jwtExpirationMs;
+        long expirationTime =  rememberMe? 604800000: jwtExpirationMs;
 
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))

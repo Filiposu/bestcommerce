@@ -5,6 +5,7 @@ import com.bestcommerce.entities.User;
 import com.bestcommerce.repository.MerchantRepository;
 import com.bestcommerce.services.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +34,17 @@ public class MerchantServiceImpl implements MerchantService {
         return merchant;
     }
 
+    @Override
+    public Merchant createMerchant(Merchant merchant) throws Exception {
+        Merchant createdMerhant = null;
+        try{
+           createdMerhant =  merchantRepository.save(merchant);
+        }
+        catch (Exception e){
+           throw new Exception("Coud not save Merchant info to database.You can only create one merchant per request");
+        }
+        return createdMerhant;
+    }
 
 
 }

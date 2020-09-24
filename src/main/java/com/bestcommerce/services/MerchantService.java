@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MerchantService {
-    public List<Merchant> getMerchants();
-    public Optional<Merchant> getMerchant(long merchantId);
-    public Merchant getMerchandByUserId(long id);
+    List<Merchant> getMerchants();
+    Optional<Merchant> getMerchant(long merchantId);
+    Merchant getMerchandByUserId(long id);
+    Merchant createMerchant(Merchant merchant) throws Exception;
 }

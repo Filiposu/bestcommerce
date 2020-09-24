@@ -39,9 +39,9 @@ public class MerchantController {
 
 
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @RequestMapping(value = "/create",method = RequestMethod.POST)
-    public Merchant createMerchant(@RequestBody Merchant merchant){
+    public Merchant createMerchant(@RequestBody Merchant merchant) throws Exception {
         Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication1.getPrincipal();
         User user = new User();
@@ -53,7 +53,7 @@ public class MerchantController {
         user.setUsername(userDetails.getUsername());
         user.setRoles(roles);
         merchant.setUser(user);
-        Merchant merchant1 = merchantRepository.save(merchant);
+        Merchant merchant1 = merchantService.createMerchant(merchant);
         return merchant1;
     }
 
