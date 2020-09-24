@@ -10,6 +10,7 @@ import com.bestcommerce.services.MerchantService;
 import com.bestcommerce.services.impl.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -36,7 +37,9 @@ public class MerchantController {
     }
 
 
+
     @ResponseStatus(HttpStatus.OK)
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     public Merchant createMerchant(@RequestBody Merchant merchant){
         Authentication authentication1 = SecurityContextHolder.getContext().getAuthentication();

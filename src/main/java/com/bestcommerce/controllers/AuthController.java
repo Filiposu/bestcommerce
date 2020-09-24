@@ -97,13 +97,11 @@ public class AuthController {
                         Role adminRole = roleRepository.findByName(Role_Enum.ROLE_ADMIN)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(adminRole);
-
                         break;
                     case "MODERATOR":
                         Role modRole = roleRepository.findByName(Role_Enum.ROLE_MODERATOR)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
                         roles.add(modRole);
-
                         break;
                     default:
                         Role userRole = roleRepository.findByName(Role_Enum.ROLE_USER)

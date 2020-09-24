@@ -41,7 +41,7 @@ public class ProductController {
     private MerchantService merchantService;
 
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public List<Product> listProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "1") int size, @RequestParam(defaultValue = "1") int priceDir, @RequestParam(defaultValue = "1") int inventoryDir){
+    public List<Product> listProducts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "20") int size, @RequestParam(defaultValue = "1") int priceDir, @RequestParam(defaultValue = "1") int inventoryDir){
 
         List<Sort.Order> orders = new ArrayList<Sort.Order>();
 
@@ -78,13 +78,15 @@ public class ProductController {
 
     @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/{id}/discount",method = RequestMethod.POST)
-    public Product setDiscount(@PathVariable long id, @RequestBody DiscountRequest discount) {
-        Product product = productService.setDiscount(id,discount.getDiscount(),discount.getStart(),discount.getEnd());
+    public Product setDiscount(@PathVariable long id, @RequestBody DiscountRequest discount,Authentication authentication) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Merchant merchant = merchantService.getMerchandByUserId(userDetails.getId());
+        Product product = productService.setDiscount(id,discount.getDiscount(),discount.getStart(),discount.getEnd(),merchant);
         return product;
     }
 
     @PreAuthorize("hasRole('USER')")
-    @RequestMapping(value = "/{product_id}/rollout/{country_id}",method = RequestMethod.POST)
+    @RequestMapping(value = "/{product_id}/rollout/{country_id}/",method = RequestMethod.POST)
     public Product postForRollout(@PathVariable int product_id,@PathVariable int country_id,Authentication authentication) throws NotFoundException {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();

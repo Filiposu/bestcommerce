@@ -6,9 +6,9 @@ public class DiscountRequest {
 
     private LocalDate start;
     private LocalDate end;
-    private Integer discount;
+    private Double discount;
 
-    public DiscountRequest(Integer discount,LocalDate start, LocalDate end)  {
+    public DiscountRequest(Double discount,LocalDate start, LocalDate end)  {
 
         this.start = start;
         this.end = end;
@@ -31,11 +31,11 @@ public class DiscountRequest {
         this.end = end;
     }
 
-    public Integer getDiscount() {
+    public Double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Integer discount) {
+    public void setDiscount(Double discount) {
         this.discount = discount;
     }
 }

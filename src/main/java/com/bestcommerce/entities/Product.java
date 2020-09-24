@@ -18,10 +18,10 @@ public class Product {
     private String name;
 
     @Column
-    private String description;
+    private String description = "No description set yet";
 
     @Column
-    private int inventory;
+    private int inventory = 0;
 
     @ManyToOne(
             fetch = FetchType.EAGER
@@ -30,10 +30,21 @@ public class Product {
     private Category category;
 
     @Column
-    private Double price;
+    private Double price = 0.0;
 
     @Column
-    private Boolean delivery;
+    private Boolean delivery = true;
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    @Column
+    private String paymentType = "direct";
 
     @Column
     private Double discount;

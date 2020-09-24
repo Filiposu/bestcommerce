@@ -42,7 +42,6 @@ public class BestCommerceApp implements CommandLineRunner {
         SpringApplication.  run(BestCommerceApp.class, args);
     }
 
-
     //Bootstrapping default database values
     @Override
     @Transactional
@@ -145,6 +144,7 @@ public class BestCommerceApp implements CommandLineRunner {
         product1.setDiscount_start(LocalDate.of(2020, 9, 20));
         product1.setPrice((double) 700);
         product1.setMerchant(merchantRepository.findMerchantByOwner_name("Toghrul").get());
+        product1.setPaymentType("direct");
         System.out.println( product1.toString());
 
         Product product2 = new Product();
@@ -156,6 +156,7 @@ public class BestCommerceApp implements CommandLineRunner {
         product2.setDiscount_start(LocalDate.of(2020, 9, 11));
         product2.setPrice((double) 100);
         product2.setMerchant(merchantRepository.findMerchantByOwner_name("Tural").get());
+        product2.setPaymentType("installments");
         System.out.println( product2.toString());
 
         Product product3 = new Product();
@@ -167,6 +168,7 @@ public class BestCommerceApp implements CommandLineRunner {
         product3.setDiscount_start(LocalDate.of(2020, 9, 23));
         product3.setPrice((double) 50);
         product3.setMerchant(merchantRepository.findMerchantByOwner_name("Orxan").get());
+        product3.setPaymentType("installments");
 
         System.out.println( product3.toString());
 

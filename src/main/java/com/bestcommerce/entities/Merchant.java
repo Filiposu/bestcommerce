@@ -1,5 +1,7 @@
 package com.bestcommerce.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -19,13 +21,15 @@ public class Merchant {
     @Column(name = "owner_name")
     private String owner_name;
 
+
     @Column
     private String address;
 
     @Column
     private String phone_number;
 
-    @OneToOne
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Long getId() {
