@@ -20,8 +20,6 @@ public class Country {
     public Country() {
 
     }
-
-
     public Country(String name) {
         this.setName(name);
     }

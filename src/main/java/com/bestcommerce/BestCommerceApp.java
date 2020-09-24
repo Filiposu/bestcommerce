@@ -62,18 +62,16 @@ public class BestCommerceApp implements CommandLineRunner {
 
         User user1 = new User("togrul125@gmail.com", encoder.encode("1234567"));
         user1.setRoles(new HashSet<Role>() {{
-            add(roleRepository.findByName(Role_Enum.ROLE_ADMIN).get());
+            add(roleRepository.findByName(Role_Enum.ROLE_USER).get());
             add(roleRepository.findByName(Role_Enum.ROLE_ADMIN).get());
         }});
         User user2 = new User("togrul126@gmail.com", encoder.encode("1234567"));
         user2.setRoles(new HashSet<Role>() {{
-            add(roleRepository.findByName(Role_Enum.ROLE_ADMIN).get());
-            add(roleRepository.findByName(Role_Enum.ROLE_ADMIN).get());
+            add(roleRepository.findByName(Role_Enum.ROLE_USER).get());
         }});
         User user3 = new User("togrul127@gmail.com", encoder.encode("1234567"));
         user3.setRoles(new HashSet<Role>() {{
-            add(roleRepository.findByName(Role_Enum.ROLE_ADMIN).get());
-            add(roleRepository.findByName(Role_Enum.ROLE_ADMIN).get());
+            add(roleRepository.findByName(Role_Enum.ROLE_USER).get());
         }});
         users.add(user1);
         users.add(user2);

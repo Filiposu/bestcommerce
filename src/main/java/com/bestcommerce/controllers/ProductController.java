@@ -56,7 +56,6 @@ public class ProductController {
         return products;
     }
 
-
     @RequestMapping(method = RequestMethod.GET,path = "/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable long id) {
        try {
@@ -68,7 +67,7 @@ public class ProductController {
        }
     }
 
-
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(method = RequestMethod.POST,value = "/create")
     public Product product (Authentication authentication,@RequestBody Product product) {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
@@ -77,22 +76,32 @@ public class ProductController {
         return productService.save(product);
     }
 
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/{id}/discount",method = RequestMethod.POST)
     public Product setDiscount(@PathVariable long id, @RequestBody DiscountRequest discount) {
         Product product = productService.setDiscount(id,discount.getDiscount(),discount.getStart(),discount.getEnd());
         return product;
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/{product_id}/rollout/{country_id}",method = RequestMethod.POST)
-    public Product postForRollout(@PathVariable int product_id,@PathVariable int country_id) throws NotFoundException {
-        System.out.println("Request accepted");
+    public Product postForRollout(@PathVariable int product_id,@PathVariable int country_id,Authentication authentication) throws NotFoundException {
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+        Merchant merchant = merchantService.getMerchandByUserId(userDetails.getId());
+
         Product productFound = productService.getProductById((long) product_id);
-        Country country = countryRepository.findById(country_id).orElseThrow(() -> new ProductNotFoundException("Country could not be found"));
-        Set<Country> countrySet = productFound.getRollout_countries();
-        countrySet.add(country);
-        productFound.setRollout_countries(countrySet);
-        productService.save(productFound);
+        if(productFound.getMerchant().getId() != merchant.getId()){
+            throw new AccessDeniedException("You can only post rollout for your own product");
+        }
+        else {
+            Country country = countryRepository.findById(country_id).orElseThrow(() -> new ProductNotFoundException("Country could not be found"));
+            Set<Country> countrySet = productFound.getRollout_countries();
+            countrySet.add(country);
+            productFound.setRollout_countries(countrySet);
+            productFound = productService.save(productFound);
+        }
+
         return productFound;
     }
 
